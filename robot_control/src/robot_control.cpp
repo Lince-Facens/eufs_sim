@@ -85,6 +85,7 @@ public:
 
     // High level robot command
     ros::Subscriber cmd_sub_;
+    ros::Subscriber driverless_cmd;
 
     // Ackermann Topics - control action - traction - velocity
     std::string frw_vel_topic_;
@@ -123,6 +124,8 @@ public:
 
     // Command reference
     ackermann_msgs::AckermannDriveStamped base_vel_msg_;
+	//Driverless command reference
+	ackermann_msgs::AckermannDriveStamped driverless_vel_msg_;
 
     // External speed references
     double v_ref_;
@@ -246,6 +249,7 @@ public:
         // Subscribers
         joint_state_sub_ = nh_.subscribe<sensor_msgs::JointState>("joint_states", 1, &SimController::jointStateCallback, this);
         cmd_sub_ = robot_control_node_handle.subscribe<ackermann_msgs::AckermannDriveStamped>("command", 1, &SimController::commandCallback, this);
+	driverless_cmd = robot_control_node_handle.subscribe<ackermann_msgs::AckermannDriveStamped>("command", 1, &SimController::driverlessCommandCallback, this);
 
         // Adevertise reference topics for the controllers
         ref_vel_frw_ = nh_.advertise<std_msgs::Float64>( frw_vel_topic_, 50);
@@ -488,6 +492,15 @@ public:
         base_vel_msg_ = *msg;
         this->setCommand(base_vel_msg_);
     }
+
+	void driverlessCommandCallback(const ackermann_msgs::AckermannDriveStamped::ConstPtr& msg)
+	{
+		last_command_time_ = ros::Time::now();
+		subs_command_freq->tick();
+
+		driverless_vel_msg_ = *msg;
+		this->setCommand(driverless_vel_msg_);	
+	}
 
     double saturation(double u, double min, double max) {
         if (u>max) u=max;
