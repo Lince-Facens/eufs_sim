@@ -24,6 +24,7 @@
   <build_depend>tf</build_depend>
   <build_depend>diagnostic_msgs</build_depend>
   <build_depend>diagnostic_updater</build_depend>
+  <build_depend>fsd_common_msgs</build_depend>
 
   <run_depend>ackermann_msgs</run_depend>
   <run_depend>geometry_msgs</run_depend>

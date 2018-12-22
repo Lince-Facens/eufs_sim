@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   diagnostic_msgs
   diagnostic_updater
+  fsd_common_msgs
 )
 
 catkin_package(

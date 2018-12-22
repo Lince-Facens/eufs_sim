@@ -11,4 +11,6 @@
     <param name="max_steering" value="0.523599"/> <!-- 30 degs -->
   </node> 
   
+  <node pkg="robot_control" name="control_command_to_ackermannDrive" type="fsd_control_command_to_ackermannDrive.py" args="controlCommandToAckermannDrive:=fsd_common_msgs.msg/ControllCommand" />
+  
 </launch>
